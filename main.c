@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "./ConvexHull.h"
-
+/* */
 #define N 10
 
 int main(int argc, char *argv[]) {
