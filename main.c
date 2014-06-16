@@ -1,6 +1,7 @@
 #include <stdio.h>
+#include <limits.h>
 #include "./ConvexHull.h"
-/* */
+
 #define N 10
 
 int main(int argc, char *argv[]) {
@@ -17,11 +18,10 @@ int main(int argc, char *argv[]) {
         {0,-3}
     };
 
-    vector2_t answer[N] = {{0,1},{1,0},{100,100}};
+    vector2_t answer[N] = {{1,0},{0,-1},{INT_MAX,INT_MAX}};
 
     //directConvexHull(vectors, answer);
     show(answer);
 
-    printf("\n%d\n", (int)((sizeof answer)/(sizeof answer[0])));
     return 0;
 }
