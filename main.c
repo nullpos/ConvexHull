@@ -2,10 +2,8 @@
 #include <limits.h>
 #include "./ConvexHull.h"
 
-#define N 10
-
 int main(int argc, char *argv[]) {
-    vector2_t vectors[N] = {
+    point2_t points[N] = {
         {-7,2},
         {-5,-4},
         {-3,0},
@@ -18,9 +16,9 @@ int main(int argc, char *argv[]) {
         {0,-3}
     };
 
-    vector2_t answer[N] = {{1,0},{0,-1},{INT_MAX,INT_MAX}};
+    point2_t answer[N+1] = {{INT_MAX,INT_MAX}};
 
-    //directConvexHull(vectors, answer);
+    directConvexHull(points, answer);
     show(answer);
 
     return 0;
