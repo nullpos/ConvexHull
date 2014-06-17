@@ -7,6 +7,9 @@
 #define TRUE 1
 #define FALSE 0
 
+#define LEFT 1
+#define RIGHT 0
+
 #define N 10
 
 typedef struct {
