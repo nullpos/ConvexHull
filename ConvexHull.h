@@ -22,5 +22,9 @@ typedef struct {
 extern point2_t* directConvexHull(point2_t* /* point list */, point2_t* /* answer */);
 extern int show(point2_t*);
 extern int crossProduct(point2_t*, point2_t*, point2_t*);
+extern int sortEdges(edge_t*);
+extern int edgeToPoint(point2_t*, edge_t*);
+extern int addEdge(point2_t*, point2_t*, edge_t*);
 
+extern int isValidEdge(edge_t);
 #endif

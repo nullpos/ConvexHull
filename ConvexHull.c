@@ -38,7 +38,8 @@ int crossProduct(point2_t *p, point2_t *q, point2_t *a) {
 point2_t* directConvexHull(point2_t *points, point2_t *answer) {
     int i, j, k, flag;
     point2_t *p, *q, *a;
-    //edge_t tmpAnswer[N];
+    point2_t ip = {INT_MAX, INT_MAX};
+    edge_t answerEdge[N+1] = {{ip, ip}};
     for(i=0; i<N; i++) {
         p = &points[i];
         for(j=0; j<N; j++) {
@@ -55,12 +56,40 @@ point2_t* directConvexHull(point2_t *points, point2_t *answer) {
             }
         }
         if(flag == TRUE) {
-        //    addEdge(p, q, tmpAnswer);
+            addEdge(p, q, answerEdge);
         }
     }
+    sortEdges(answerEdge);
+    edgeToPoint(answer, answerEdge);
     return answer;
 }
 
-int addEdge() {
+int sortEdges(edge_t *edges) {
+    return 0;
+}
 
+int edgeToPoint(point2_t *points, edge_t *edges) {
+    return 0;
+}
+
+int addEdge(point2_t *p, point2_t *q, edge_t *answer) {
+    int i = 0;
+    while(isValidEdge(answer[i]) == TRUE) {
+        i++;
+    }
+    answer[i].p = *p;
+    answer[i].q = *q;
+
+    point2_t ip = {INT_MAX, INT_MAX};
+    answer[i+1].p = ip;
+    answer[i+1].q = ip;
+    return 0;
+}
+
+int isValidEdge(edge_t edge) {
+    int flag = TRUE;
+    if((edge.p.x == INT_MAX) && (edge.p.y == INT_MAX) && (edge.q.x == INT_MAX) && (edge.q.y == INT_MAX)) {
+        flag = FALSE;
+    }
+    return flag;
 }

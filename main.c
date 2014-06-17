@@ -16,7 +16,8 @@ int main(int argc, char *argv[]) {
         {0,-3}
     };
 
-    point2_t answer[N+1] = {{INT_MAX,INT_MAX}};
+    point2_t ip = {INT_MAX, INT_MAX};
+    point2_t answer[N+1] = {ip};
 
     directConvexHull(points, answer);
     show(answer);
