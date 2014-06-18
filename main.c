@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <limits.h>
 #include "./ConvexHull.h"
+#include "./Interface.h"
 
 int main(int argc, char *argv[]) {
     point2_t points[N] = {
