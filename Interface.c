@@ -15,16 +15,43 @@ int show(point2_t *points) {
 }
 
 int crossProduct(point2_t p, point2_t q, point2_t a) {
-    int flag = LEFT;
-
     int product = ((q.x-p.x) * (a.y-p.y)) - ((q.y-p.y) * (a.x-p.x));
+    return product;
+}
 
-    if(product < 0) {
-        // rightside
-        flag = RIGHT;
-    } else {
-        // leftside or on
-        flag = LEFT;
+double calcDeg(point2_t p, point2_t q, point2_t a) {
+    point2_t pq = {q.x - p.x, q.y - p.y};
+    point2_t pa = {a.x - p.x, a.y - p.y};
+    
+    double qpv = atan2((double) pq.y, (double) pq.x);
+    point2_t pa_ = rotatePoint(pa, (-1 *qpv));
+    double apq = atan2((double) pa_.y, (double) pa_.x);
+
+    return apq;
+}
+
+point2_t rotatePoint(point2_t p, double deg) {
+    point2_t q;
+
+    q.x = p.x * cos(deg) - p.y * sin(deg);
+    q.y = p.x * sin(deg) + p.y * cos(deg);
+
+    return q;
+}
+
+int isExistInPointsList(point2_t *points, point2_t point) {
+    int flag = FALSE;
+    int last = 0;
+    while(isValidPoint(points[last]) == TRUE) {
+        last++;
+    }
+    
+    int i;
+    for(i=0; i<last; i++) {
+        if(isEqualPoint(points[i], point) == TRUE) {
+            flag = TRUE;
+            break;
+        }
     }
 
     return flag;

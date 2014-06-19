@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <limits.h>
+#include <math.h>
 
 #define TRUE 1
 #define FALSE 0
@@ -30,4 +31,6 @@ extern int addEdge(edge_t*, point2_t, point2_t);
 extern int addPoint(point2_t*, point2_t);
 extern int isValidEdge(edge_t);
 extern int isValidPoint(point2_t);
+extern double calcDeg(point2_t, point2_t, point2_t);
+extern point2_t rotatePoint(point2_t, double);
 #endif
