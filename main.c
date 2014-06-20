@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <limits.h>
 #include "./ConvexHull.h"
+#include "./gnuplot.h"
 #include "./Interface.h"
 
 int main(int argc, char *argv[]) {
@@ -22,7 +23,9 @@ int main(int argc, char *argv[]) {
     
     //directConvexHull(points, answer);
     wrappingConvexHull(points, answer);
+    show(points);
     show(answer);
 
+    outputToGnuplot(points, answer);
     return 0;
 }
