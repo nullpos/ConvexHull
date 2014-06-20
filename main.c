@@ -5,7 +5,9 @@
 #include "./Interface.h"
 
 int main(int argc, char *argv[]) {
-    point2_t points[N] = {
+    point2_t ip = {INT_MAX, INT_MAX};
+    point2_t answer[N+1] = {ip};
+    point2_t points[N+1] = {
         {-7,2},
         {-5,-4},
         {-3,0},
@@ -15,14 +17,12 @@ int main(int argc, char *argv[]) {
         {2,-7},
         {4,2},
         {5,-3},
-        {0,-3}
+        {0,-3},
+        ip
     };
 
-    point2_t ip = {INT_MAX, INT_MAX};
-    point2_t answer[N+1] = {ip};
-    
-    //directConvexHull(points, answer);
-    wrappingConvexHull(points, answer);
+    directConvexHull(points, answer);
+    //wrappingConvexHull(points, answer);
     show(points);
     show(answer);
 

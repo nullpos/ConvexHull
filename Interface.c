@@ -22,7 +22,7 @@ int crossProduct(point2_t p, point2_t q, point2_t a) {
 double calcDeg(point2_t p, point2_t q, point2_t a) {
     point2_t pq = {q.x - p.x, q.y - p.y};
     point2_t pa = {a.x - p.x, a.y - p.y};
-    
+
     double qpv = atan2((double) pq.y, (double) pq.x);
     point2_t pa_ = rotatePoint(pa, (-1 *qpv));
     double apq = atan2((double) pa_.y, (double) pa_.x);
@@ -45,7 +45,7 @@ int isExistInPointsList(point2_t *points, point2_t point) {
     while(isValidPoint(points[last]) == TRUE) {
         last++;
     }
-    
+
     int i;
     for(i=0; i<last; i++) {
         if(isEqualPoint(points[i], point) == TRUE) {
@@ -65,7 +65,7 @@ int edgeToPoint(point2_t *points, edge_t *edges) {
     start = edges[0].p;
     source = edges[0].p;
     target = edges[0].q;
-    
+
     last = 0;
     while(isValidEdge(edges[last]) == TRUE) {
         last++;
@@ -79,8 +79,8 @@ int edgeToPoint(point2_t *points, edge_t *edges) {
                 break;
             }
         }
-        addPoint(points, target);        
-    } while(isEqualPoint(target, start) == FALSE); 
+        addPoint(points, target);
+    } while(isEqualPoint(target, start) == FALSE);
 
     return 0;
 }

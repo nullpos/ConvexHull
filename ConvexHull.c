@@ -6,7 +6,7 @@ point2_t* wrappingConvexHull(point2_t *points, point2_t *answerPoints) {
     while(isValidPoint(points[last]) == TRUE) {
         last++;
     }
-    
+
     point2_t min = points[0];
     point2_t max = points[0];
     int min_i,max_i;
@@ -23,7 +23,7 @@ point2_t* wrappingConvexHull(point2_t *points, point2_t *answerPoints) {
     }
 
     addPoint(answerPoints, min);
-    
+
     point2_t p;
     point2_t q;
     int ans_i = 0;
@@ -36,7 +36,7 @@ point2_t* wrappingConvexHull(point2_t *points, point2_t *answerPoints) {
         p.y = answerPoints[ans_i].y;
         q.x = p.x + pm;
         q.y = p.y;
-        
+
         mindeg = INT_MAX;
         for(j=0; j<last; j++) {
             if(isExistInPointsList(answerPoints, points[j]) == TRUE) {
@@ -47,7 +47,6 @@ point2_t* wrappingConvexHull(point2_t *points, point2_t *answerPoints) {
                 mindeg = deg;
                 mindeg_i = j;
             }
-            
         }
         if(isEqualPoint(points[mindeg_i], answerPoints[ans_i]) == TRUE) break; 
         addPoint(answerPoints, points[mindeg_i]);
@@ -67,7 +66,7 @@ point2_t* directConvexHull(point2_t *points, point2_t *answerPoints) {
         for(j=0; j<N; j++) {
             q = &points[j];
             flag = TRUE;
-            
+
             for(k=0; k<N; k++) {
                 if(k == i || k == j) continue;
                 a = &points[k];
