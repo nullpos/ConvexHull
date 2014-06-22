@@ -11,15 +11,9 @@
 #define XYMIN -100
 
 point2_t IP;
-/*
-    -t          // time
 
-    -d,-w       // how to solve
-    -r 100      // random
-    -f filename // input from file
-*/
 int main(int argc, char *argv[]) {
-    int num;
+    int data_num = 0;
     FILE *fp;
     point2_t *answer;
     point2_t *points;
@@ -27,6 +21,7 @@ int main(int argc, char *argv[]) {
     IP.y = INT_MAX;
 
     int time_o = FALSE;
+    int way_o = FALSE;
     point2_t* (*way_f)(point2_t*, point2_t*, int) = directConvexHull;
 
     int ch;
@@ -45,9 +40,15 @@ int main(int argc, char *argv[]) {
             way_f = wrappingConvexHull;
             break;
         case 'r':
-            num = atoi(optarg);
-            points = (point2_t *)malloc(sizeof (point2_t) * (num+1));
-            answer = (point2_t *)malloc(sizeof (point2_t) * (num+1));
+            if(way_o == TRUE) {
+                fprintf(stderr, "Only -f or -r can use.\n");
+                break;
+            }
+            way_o = TRUE;
+
+            data_num = atoi(optarg);
+            points = (point2_t *)malloc(sizeof (point2_t) * (data_num+1));
+            answer = (point2_t *)malloc(sizeof (point2_t) * (data_num+1));
             if(points == NULL || answer == NULL) {
                 fprintf(stderr, "Error: Cannot allocate memory\n");
                 exit(1);
@@ -55,14 +56,47 @@ int main(int argc, char *argv[]) {
 
             srand((unsigned int)time(NULL));
             int i;
-            for(i=0; i<num; i++) {
+            for(i=0; i<data_num; i++) {
                 (points + i)->x = getRandInt();
                 (points + i)->y = getRandInt();
             }
-            *(points + num) = IP;
+            *(points + data_num) = IP;
             *answer = IP;
             break;
         case 'f':
+            if(way_o == TRUE) {
+                fprintf(stderr, "Only -f or -r can use.\n");
+                break;
+            }
+            way_o = TRUE;
+
+            fp = fopen(optarg, "r");
+            if(fp == NULL) {
+                fprintf(stderr, "Error: Cannot open %s .\n", optarg);
+                exit(1);
+            }
+
+            data_num = 0;
+            char c;
+            while((c = getc(fp)) != EOF) {
+                if(c == '\n') data_num++;
+            }
+
+            points = (point2_t *)malloc(sizeof (point2_t) * (data_num+1));
+            answer = (point2_t *)malloc(sizeof (point2_t) * (data_num+1));
+            if(points == NULL || answer == NULL) {
+                fprintf(stderr, "Error: Cannot allocate memory.\n");
+                exit(1);
+            }
+
+            rewind(fp);
+
+            int j = 0;
+            while((fscanf(fp, "%d\t%d", &((points + j)->x), &((points + j)->y))) != EOF) {
+                j++;
+            }
+            *(points + j) = IP;
+            *answer = IP;
             break;
         default:
             break;
@@ -76,7 +110,7 @@ int main(int argc, char *argv[]) {
         c1 = clock();
     }
 
-    (*way_f)(points, answer, num);
+    (*way_f)(points, answer, data_num);
 
     if(time_o == TRUE) {
         c2 = clock();
@@ -87,6 +121,8 @@ int main(int argc, char *argv[]) {
 
     free(answer);
     free(points);
+    fclose(fp);
+    printf("Complete.\n");
     return 0;
 }
 
