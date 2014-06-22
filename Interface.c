@@ -2,13 +2,30 @@
 
 int show(point2_t *points) {
     int i = 0;
-    while((points + i)->x != INT_MAX && (points + i)->y != INT_MAX) {
+    while(isValidPoint(*(points+ i)) == TRUE) {
         i++;
     }
     int j;
     for(j=0; j<i; j++) {
         printf("(%d, %d)", (points + j)->x, (points + j)->y);
         if((j+1) % 10 == 0) { printf("\n"); }
+    }
+    printf("\n");
+    return 0;
+}
+
+int showEdges(edge_t *edges) {
+    int i = 0;
+    while(isValidEdge(*(edges + i)) == TRUE) {
+        i++;
+    }
+    int j;
+    point2_t p,q;
+    for(j=0; j<i; j++) {
+        p = (edges + j)->p;
+        q = (edges + j)->q;
+        printf("(%d, %d)->(%d, %d)", p.x, p.y, q.x, q.y);
+        if((j+1) % 5 == 0) { printf("\n"); }
     }
     printf("\n");
     return 0;
@@ -83,7 +100,9 @@ int edgeToPoint(point2_t *points, edge_t *edges) {
     while(isValidEdge(*(edges + last)) == TRUE) {
         last++;
     }
+
     addPoint(points, target);
+
     do {
         for(j=0; j<last; j++) {
             source = (edges + j)->p;
@@ -94,7 +113,6 @@ int edgeToPoint(point2_t *points, edge_t *edges) {
         }
         addPoint(points, target);
     } while(isEqualPoint(target, start) == FALSE);
-
     return 0;
 }
 
@@ -139,7 +157,8 @@ int isValidPoint(point2_t point) {
 
 int isValidEdge(edge_t edge) {
     int flag = TRUE;
-    if((edge.p.x == INT_MAX) && (edge.p.y == INT_MAX) && (edge.q.x == INT_MAX) && (edge.q.y == INT_MAX)) {
+    if( (isValidPoint(edge.p) == FALSE) &&
+        (isValidPoint(edge.q) == FALSE)) {
         flag = FALSE;
     }
     return flag;

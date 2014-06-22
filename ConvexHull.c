@@ -66,7 +66,7 @@ point2_t* directConvexHull(point2_t *points, point2_t *answerPoints, int point_n
     int i, j, k, flag;
     point2_t *p, *q, *a;
     edge_t *answerEdges;
-    answerEdges = (edge_t *)malloc(sizeof (edge_t) * point_num);
+    answerEdges = (edge_t *)malloc(sizeof (edge_t) * (point_num+1));
     if(answerEdges == NULL) {
         fprintf(stderr, "Error: Cannot allocate memory.\n");
         exit(1);
@@ -84,20 +84,31 @@ point2_t* directConvexHull(point2_t *points, point2_t *answerPoints, int point_n
         p = (points + i);
         for(j=0; j<last; j++) {
             q = (points + j);
+            if(isEqualPoint(*p, *q) == TRUE) continue;
             flag = TRUE;
 
             for(k=0; k<last; k++) {
-                if(k == i || k == j) continue;
                 a = (points + k);
+                if(isEqualPoint(*p, *a) == TRUE) continue;
+                if(isEqualPoint(*a, *q) == TRUE) continue;
+                if(k == i || k == j) continue;
                 side = whichSideOfVector(*p, *q, *a);
-                if(side == RIGHT || side == ON) {
-                    // left side or on
+                if(side == LEFT) {
+                    // left side
                     flag = FALSE;
                     break;
+                } else if(side == ON) {
+                    if((p->x <= a->x && q->x <= a->x) || (p->x >= a->x && q->x >= a->x)) {
+                        // a is outside of pq
+                        flag = FALSE;
+                        break;
+                    } else {
+                        // a is inside of pq
+                    }
                 }
             }
             if(flag == TRUE) {
-                // all points are right-side
+                // all points are right-side or on
                 addEdge(answerEdges, *p, *q);
                 break;
             }
@@ -105,5 +116,6 @@ point2_t* directConvexHull(point2_t *points, point2_t *answerPoints, int point_n
     }
     edgeToPoint(answerPoints, answerEdges);
     free(answerEdges);
+    answerEdges = NULL;
     return answerPoints;
 }
