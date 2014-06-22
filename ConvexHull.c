@@ -2,6 +2,7 @@
 #include "./Interface.h"
 
 point2_t* wrappingConvexHull(point2_t *points, point2_t *answerPoints, int point_num) {
+    printf("search with wrappingConvexHull()\n");
     int last = 0;
     while(isValidPoint(*(points + last)) == TRUE) {
         last++;
@@ -61,11 +62,15 @@ point2_t* wrappingConvexHull(point2_t *points, point2_t *answerPoints, int point
 }
 
 point2_t* directConvexHull(point2_t *points, point2_t *answerPoints, int point_num) {
+    printf("search with directConvexHull()\n");
     int i, j, k, flag;
     point2_t *p, *q, *a;
     edge_t *answerEdges;
     answerEdges = (edge_t *)malloc(sizeof (edge_t) * point_num);
-    if(answerEdges == NULL) exit(1);
+    if(answerEdges == NULL) {
+        fprintf(stderr, "Error: Cannot allocate memory.\n");
+        exit(1);
+    }
     edge_t ie = {IP,IP};
     *answerEdges = ie;
 

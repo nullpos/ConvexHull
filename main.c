@@ -2,6 +2,7 @@
 #include <limits.h>
 #include <stdlib.h>
 #include <time.h>
+#include <unistd.h>
 #include "./ConvexHull.h"
 #include "./gnuplot.h"
 #include "./Interface.h"
@@ -10,7 +11,13 @@
 #define XYMIN -100
 
 point2_t IP;
+/*
+    -t          // time
 
+    -d,-w       // how to solve
+    -r 100      // random
+    -f filename // input from file
+*/
 int main(int argc, char *argv[]) {
     int num;
     FILE *fp;
@@ -19,11 +26,32 @@ int main(int argc, char *argv[]) {
     IP.x = INT_MAX;
     IP.y = INT_MAX;
 
-    if(argc > 1) {
-        if(sscanf(argv[1], "%d", &num) != EOF) {
+    int time_o = FALSE;
+    point2_t* (*way_f)(point2_t*, point2_t*, int) = directConvexHull;
+
+    int ch;
+    extern char *optarg;
+    extern int optind, opterr;
+
+    while((ch = getopt(argc, argv, "tdwr:f:")) != -1) {
+        switch(ch) {
+        case 't':
+            time_o = TRUE;
+            break;
+        case 'd':
+            way_f = directConvexHull;
+            break;
+        case 'w':
+            way_f = wrappingConvexHull;
+            break;
+        case 'r':
+            num = atoi(optarg);
             points = (point2_t *)malloc(sizeof (point2_t) * (num+1));
             answer = (point2_t *)malloc(sizeof (point2_t) * (num+1));
-            if(points == NULL || answer == NULL) exit(1);
+            if(points == NULL || answer == NULL) {
+                fprintf(stderr, "Error: Cannot allocate memory\n");
+                exit(1);
+            }
 
             srand((unsigned int)time(NULL));
             int i;
@@ -33,20 +61,27 @@ int main(int argc, char *argv[]) {
             }
             *(points + num) = IP;
             *answer = IP;
-        } else if((fp = fopen(argv[1], "r")) != NULL) {
-            //
-        } else {
-            usage();
-        }
-    } else {
-        usage();
+            break;
+        case 'f':
+            break;
+        default:
+            break;
+         }
+    }
+    argc -= optind;
+    argv += optind;
+
+    clock_t c1,c2;
+    if(time_o == TRUE) {
+        c1 = clock();
     }
 
-    //directConvexHull(points, answer, num);
-    wrappingConvexHull(points, answer, num);
+    (*way_f)(points, answer, num);
 
-    //show(points);
-    //show(answer);
+    if(time_o == TRUE) {
+        c2 = clock();
+        printf("clock time = %f\n", (double) (c2 - c1)/CLOCKS_PER_SEC);
+    }
 
     outputToGnuplot(points, answer);
 
