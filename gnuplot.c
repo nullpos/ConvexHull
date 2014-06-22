@@ -23,14 +23,14 @@ int outputToGnuplot(point2_t *points, point2_t *answer) {
 
 int makeGnuPlotFile(FILE *fp, point2_t *points) {
     int last = 0;
-    while(isValidPoint(points[last]) == TRUE) {
+    while(isValidPoint(*(points + last)) == TRUE) {
         last++;
     }
     int i;
     for(i=0; i<last; i++) {
-        fprintf(fp, "%d\t%d\n", points[i].x, points[i].y);
+        fprintf(fp, "%d\t%d\n", (points + i)->x, (points + i)->y);
     }
-    fprintf(fp, "%d\t%d\n", points[0].x, points[0].y);
+    fprintf(fp, "%d\t%d\n", points->x, points->y);
 
     fflush(fp);
     return 0;

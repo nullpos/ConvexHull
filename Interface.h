@@ -8,10 +8,9 @@
 #define TRUE 1
 #define FALSE 0
 
+#define ON 2
 #define LEFT 1
 #define RIGHT 0
-
-#define N 10
 
 typedef struct {
     int x;
@@ -23,8 +22,11 @@ typedef struct {
     point2_t q;
 } edge_t;
 
+extern point2_t IP;
+
 extern int show(point2_t*);
-extern int crossProduct(point2_t, point2_t, point2_t);
+extern long long int crossProduct(point2_t, point2_t, point2_t);
+extern int whichSideOfVector(point2_t, point2_t, point2_t);
 extern int sortEdges(edge_t*);
 extern int edgeToPoint(point2_t*, edge_t*);
 extern int addEdge(edge_t*, point2_t, point2_t);
