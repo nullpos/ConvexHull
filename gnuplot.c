@@ -1,12 +1,17 @@
-#include "./Interface.h"
 #include "./gnuplot.h"
 
-int outputToGnuplot(point2_t *points, point2_t *answer) {
+int outputToGnuplot(point2_t *points, point2_t *answer, char* fileName) {
     FILE *opp, *oep, *gp;
-    char *ptitle = "points.dat";
-    char *etitle = "edges.dat";
+    char ptitle[256] = "points.dat";
+    char etitle[256] = "points.dat.ans";
+
+    if(fileName != NULL) {
+        sprintf(ptitle, "%s", fileName);
+        sprintf(etitle, "%s.ans", fileName);
+    }
 
     gp = popen("gnuplot -persist", "w");
+
     opp = fopen(ptitle, "w");
     oep = fopen(etitle, "w");
 
@@ -23,13 +28,10 @@ int outputToGnuplot(point2_t *points, point2_t *answer) {
 }
 
 int makeGnuPlotFile(FILE *fp, point2_t *points) {
-    int last = 0;
-    while(isValidPoint(*(points + last)) == TRUE) {
-        last++;
-    }
-    int i;
-    for(i=0; i<last; i++) {
+    int i = 0;
+    while(isValidPoint(*(points + i)) == TRUE) {
         fprintf(fp, "%d\t%d\n", (points + i)->x, (points + i)->y);
+        i++;
     }
     fprintf(fp, "%d\t%d\n", points->x, points->y);
 

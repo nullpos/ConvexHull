@@ -1,5 +1,4 @@
 #include "./ConvexHull.h"
-#include "./Interface.h"
 
 point2_t* wrappingConvexHull(point2_t *points, point2_t *answerPoints, int point_num) {
     printf("search with wrappingConvexHull()\n");

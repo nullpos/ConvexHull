@@ -3,7 +3,9 @@
 
 #include <stdio.h>
 #include <limits.h>
-#include <math.h>
+#include <stdlib.h>
+#include <time.h>
+#include <unistd.h>
 
 #define XYMAX 10000
 #define XYMIN -10000
@@ -28,6 +30,7 @@ typedef struct {
 extern point2_t IP;
 
 extern int show(point2_t*);
+extern int showEdge(edge_t*);
 extern long long int crossProduct(point2_t, point2_t, point2_t);
 extern int whichSideOfVector(point2_t, point2_t, point2_t);
 extern int sortEdges(edge_t*);

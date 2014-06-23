@@ -1,8 +1,3 @@
-#include <stdio.h>
-#include <limits.h>
-#include <stdlib.h>
-#include <time.h>
-#include <unistd.h>
 #include "./ConvexHull.h"
 #include "./gnuplot.h"
 #include "./Interface.h"
@@ -17,6 +12,7 @@ int main(int argc, char *argv[]) {
     point2_t *points;
     IP.x = INT_MAX;
     IP.y = INT_MAX;
+    char *input_file = NULL;
 
     int time_o = FALSE, way_o = FALSE, gnu_o = FALSE;
     point2_t* (*way_f)(point2_t*, point2_t*, int) = directConvexHull;
@@ -28,15 +24,19 @@ int main(int argc, char *argv[]) {
     while((ch = getopt(argc, argv, "df:gr:tw")) != -1) {
         switch(ch) {
         case 't':
+            printf("Option t is Enabled.\n");
             time_o = TRUE;
             break;
         case 'd':
+            printf("Option d is Enabled.\n");
             way_f = directConvexHull;
             break;
         case 'w':
+            printf("Option w is Enabled.\n");
             way_f = wrappingConvexHull;
             break;
         case 'g':
+            printf("Option g is Enabled.\n");
             gnu_o = TRUE;
             break;
         case 'r':
@@ -74,10 +74,11 @@ int main(int argc, char *argv[]) {
                 break;
             }
             way_o = TRUE;
-
-            fp = fopen(optarg, "r");
+            
+            input_file = optarg;
+            fp = fopen(input_file, "r");
             if(fp == NULL) {
-                fprintf(stderr, "Error: Cannot open %s .\n", optarg);
+                fprintf(stderr, "Error: Cannot open %s .\n", input_file);
                 exit(1);
             }
 
@@ -128,7 +129,7 @@ int main(int argc, char *argv[]) {
         printf("clock time = %f\n", (double) (c2 - c1)/CLOCKS_PER_SEC);
     }
     if(gnu_o == TRUE) {
-        outputToGnuplot(points, answer);
+        outputToGnuplot(points, answer, input_file);
     }
 
     free(answer);
@@ -140,7 +141,7 @@ int main(int argc, char *argv[]) {
         fclose(fp);
     }
     
-    printf("Complete.\n");
+    printf("Done.\n");
     return 0;
 }
 
