@@ -14,7 +14,7 @@ int outputToGnuplot(point2_t *points, point2_t *answer) {
     makeGnuPlotFile(oep, answer);
 
     fprintf(gp, "unset key\n");
-    fprintf(gp, "plot \"%s\" w p ps 3 pt 7, \"%s\" w l\n", ptitle, etitle);
+    fprintf(gp, "plot \"%s\" w p ps 1 pt 7, \"%s\" w l\n", ptitle, etitle);
 
     pclose(gp);
     fclose(opp);

@@ -7,15 +7,12 @@
 #include "./gnuplot.h"
 #include "./Interface.h"
 
-#define XYMAX 100
-#define XYMIN -100
-
 point2_t IP;
 
 int main(int argc, char *argv[]) {
     if(argc == 1) usage(argv);
     int data_num = 0;
-    FILE *fp;
+    FILE *fp = NULL;
     point2_t *answer;
     point2_t *points;
     IP.x = INT_MAX;
@@ -65,8 +62,8 @@ int main(int argc, char *argv[]) {
             srand((unsigned int)time(NULL));
             int i;
             for(i=0; i<data_num; i++) {
-                (points + i)->x = i*2;//getRandInt();
-                (points + i)->y = i*i;//getRandInt();
+                (points + i)->x = getRandInt();
+                (points + i)->y = getRandInt();
             }
             *(points + data_num) = IP;
             *answer = IP;
@@ -138,7 +135,11 @@ int main(int argc, char *argv[]) {
     answer = NULL;
     free(points);
     points = NULL;
-    fclose(fp);
+    
+    if(fp != NULL) {
+        fclose(fp);
+    }
+    
     printf("Complete.\n");
     return 0;
 }

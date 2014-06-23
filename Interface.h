@@ -5,6 +5,9 @@
 #include <limits.h>
 #include <math.h>
 
+#define XYMAX 10000
+#define XYMIN -10000
+
 #define TRUE 1
 #define FALSE 0
 
